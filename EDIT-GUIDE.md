@@ -117,6 +117,10 @@ Abhi khali hai, isliye site pe ye section dikhta hi nahi. Kisi teacher ya manage
   ],
 ```
 
+### Resume update karna (naya tarika)
+1. Naya resume PDF ko **same naam** se (`Sarthak_Mishra_Resume.pdf`) `files` folder mein replace karo.
+2. `content.js` mein `resume:` wali line mein `?v=2` ko `?v=3` kar do (har baar number badhao), taaki logon ko purana resume na dikhe.
+
 ### Titan dashboard ka link daalna
 `content.js` mein Titan wale project mein:
 ```js

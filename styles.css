@@ -100,7 +100,27 @@ button { font: inherit; color: inherit; cursor: pointer; }
 .nav-links { display: flex; gap: 30px; }
 .nav-links a { font-family: var(--mono); font-size: 13px; letter-spacing: .1em; text-transform: uppercase; text-decoration: none; color: var(--ink-2); padding: 8px 0; }
 .nav-links a:hover { color: var(--ink); text-decoration: underline; text-underline-offset: 6px; }
-@media (max-width: 760px) { .nav-links { display: none; } }
+.nav-right { display: flex; align-items: center; gap: 10px; }
+.nav-resume { display: none; }
+.menu-btn { display: none; width: 44px; height: 44px; border-radius: 10px; border: 1.5px solid var(--ink); background: transparent; place-content: center; gap: 5px; padding: 0; }
+.menu-btn span { display: block; width: 18px; height: 1.5px; background: var(--ink); transition: transform .25s ease, opacity .2s ease; }
+.menu-btn[aria-expanded="true"] span:nth-child(1) { transform: translateY(6.5px) rotate(45deg); }
+.menu-btn[aria-expanded="true"] span:nth-child(2) { opacity: 0; }
+.menu-btn[aria-expanded="true"] span:nth-child(3) { transform: translateY(-6.5px) rotate(-45deg); }
+@media (max-width: 1060px) {
+  .menu-btn { display: grid; }
+  .nav-links {
+    display: none; position: absolute; top: 100%; left: 0; right: 0; flex-direction: column; gap: 0;
+    background: var(--paper-2); border-bottom: 1px solid var(--line); box-shadow: 0 18px 30px -24px rgba(28, 35, 29, .6);
+    padding: 6px max(20px, env(safe-area-inset-right, 0px)) 14px max(20px, env(safe-area-inset-left, 0px));
+  }
+  .nav-links.open { display: flex; }
+  .nav-links li { border-bottom: 1px dashed var(--line); }
+  .nav-links li:last-child { border-bottom: 0; }
+  .nav-links a { display: block; padding: 13px 0; font-size: 14px; }
+  .nav-resume { display: block; }
+}
+@media (max-width: 420px) { .nav-right .btn-sm { padding: 0 12px; } }
 
 /* ---------- error box ---------- */
 .load-error {
@@ -639,6 +659,55 @@ html.modal-open { overflow: hidden; }
   .pd-body { grid-template-columns: minmax(0, 1fr); }
   .pd-media { height: min(42vh, 62vw); }
 }
+
+/* ---------- FIIB framework additions ---------- */
+/* hero: credentials, target roles, contact above the fold */
+.hero-copy .eyebrow { margin-top: -4px; }
+.targets { display: flex; flex-wrap: wrap; align-items: center; gap: 8px 12px; }
+.targets-label { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--ink-2); }
+.targets .chips li { background: var(--forest); color: var(--on-forest); border-color: var(--forest); font-size: 13px; }
+.hero-contact { display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 15.5px; color: var(--ink-2); }
+.hero-contact a { color: var(--ink); font-weight: 600; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 4px; overflow-wrap: anywhere; }
+.hero-contact a:hover { text-decoration-color: var(--rust); }
+.hero-contact span { display: inline-flex; align-items: center; gap: 7px; }
+.hero-contact svg { width: 16px; height: 16px; flex: none; fill: none; stroke: var(--rust); stroke-width: 2; stroke-linecap: round; stroke-linejoin: round; }
+.hero-actions .btn { min-height: 46px; }
+
+/* project card: my role line */
+.project-role { font-size: 14.5px; color: var(--ink-2); }
+.project-role b { color: var(--ink); font-weight: 600; }
+
+/* project pop-up: Purpose -> Process -> Outcome */
+.ppo { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 14px; padding: 0 clamp(20px, 3.5vw, 34px) clamp(20px, 3.5vw, 34px); }
+.ppo-col { display: grid; grid-template-rows: auto 1fr auto; gap: 10px; background: var(--paper); border: 1px solid var(--line); border-top: 4px solid var(--brass); border-radius: 14px; padding: 16px; min-width: 0; }
+.ppo-col h4 { font-family: var(--mono); font-weight: 500; font-size: 12.5px; letter-spacing: .12em; text-transform: uppercase; color: var(--rust); }
+.ppo-col p { font-size: 15.5px; color: var(--ink-2); line-height: 1.55; }
+.ppo-col p b { color: var(--ink); font-weight: 600; }
+.ppo-col .ppo-role { margin-bottom: 6px; }
+.ppo-col .link-out { justify-self: stretch; justify-content: center; font-size: 12px; min-height: 42px; }
+.ppo-col.empty { border-top-color: var(--line); }
+.pd-body { padding-bottom: 18px; }
+@media (max-width: 760px) { .ppo { grid-template-columns: minmax(0, 1fr); } }
+
+/* skills & tools, kept separate */
+.st-grid { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 22px 40px; align-items: start; }
+.st-col { display: grid; gap: 14px; min-width: 0; padding-top: 16px; border-top: 2px solid var(--ink); }
+.st-h { font-family: var(--mono); font-weight: 500; font-size: 13px; letter-spacing: .12em; text-transform: uppercase; color: var(--rust); display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+.st-h small { font-size: 12px; letter-spacing: .06em; color: var(--ink-2); text-transform: none; font-family: var(--body); }
+.st-list { display: grid; gap: 0; }
+.st-list li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 4px 14px; align-items: center; padding: 12px 0; border-bottom: 1px dashed var(--line); }
+.st-name { font-weight: 600; font-size: 16.5px; }
+.st-level { font-family: var(--mono); font-size: 11.5px; letter-spacing: .06em; text-transform: uppercase; padding: 4px 10px; border-radius: 999px; border: 1px solid var(--line); background: var(--paper-2); white-space: nowrap; }
+.st-level.l-working { background: var(--forest); color: var(--on-forest); border-color: var(--forest); }
+.st-level.l-advanced { background: var(--rust); color: var(--on-forest); border-color: var(--rust); }
+.st-where { grid-column: 1 / -1; font-size: 14px; color: var(--ink-2); }
+.st-where a { color: inherit; text-decoration: underline; text-decoration-color: var(--line); text-underline-offset: 3px; }
+.st-where a:hover { color: var(--ink); text-decoration-color: var(--rust); }
+.st-note { margin-top: 18px; font-size: 14px; color: var(--ink-2); max-width: 70ch; }
+@media (max-width: 860px) { .st-grid { grid-template-columns: minmax(0, 1fr); } }
+
+/* certifications: two buttons */
+.cert-actions { display: flex; flex-wrap: wrap; gap: 8px; }
 
 /* ---------- motion ---------- */
 @media (prefers-reduced-motion: reduce) {

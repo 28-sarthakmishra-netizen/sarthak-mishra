@@ -132,8 +132,27 @@
     if (S.photo) { img.src = S.photo; img.alt = "Portrait of " + (S.name || ""); }
     else { $(".portrait").hidden = true; }
 
-    var resume = $("#resume-btn");
-    if (S.resume) resume.href = S.resume; else resume.hidden = true;
+    var resume = $("#resume-btn"), navResume = $("#nav-resume");
+    if (S.resume) { resume.href = S.resume; navResume.href = S.resume; }
+    else { resume.hidden = true; navResume.parentElement.hidden = true; }
+
+    var li = $("#hero-linkedin");
+    if (S.linkedin) li.href = S.linkedin; else li.hidden = true;
+
+    var roles = list(S.targetRoles);
+    if (roles.length) $("#target-roles").innerHTML = chips(roles); else $("#targets").hidden = true;
+
+    var icon = {
+      mail: '<svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 7l9 6 9-6"/></svg>',
+      phone: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2"/></svg>',
+      pin: '<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 21s-7-6.2-7-11a7 7 0 0 1 14 0c0 4.8-7 11-7 11z"/><circle cx="12" cy="10" r="2.5"/></svg>'
+    };
+    var bits = [];
+    if (S.email) bits.push("<span>" + icon.mail + '<a href="mailto:' + esc(S.email) + '">' + esc(S.email) + "</a></span>");
+    if (S.phone) bits.push("<span>" + icon.phone + '<a href="tel:' + esc(String(S.phone).replace(/[^+\d]/g, "")) + '">' + esc(S.phone) + "</a></span>");
+    if (S.location) bits.push("<span>" + icon.pin + esc(S.location) + "</span>");
+    $("#hero-contact").innerHTML = bits.join("");
+    if (!bits.length) $("#hero-contact").hidden = true;
 
     var stats = list(S.stats);
     $("#stats").innerHTML = stats.map(function (s) {
@@ -285,6 +304,7 @@
       esc(p.title) + '</span><span class="cover-kind">' + esc(p.kind) + "</span></div>";
   }
 
+  var openProject = null;
   safely("projects", function () {
     var projects = list(S.projects);
     if (!projects.length) { hideSection("projects"); return; }
@@ -296,6 +316,7 @@
         '<div class="project-media">' + mediaHTML(p, i) + '<span class="media-cta" aria-hidden="true">View project</span></div>' +
         '<div class="project-top"><div class="project-meta"><span class="pid">P/' + num + "</span><span>" + esc(p.kind) + "</span></div>" +
         "<h3>" + esc(p.title) + '</h3><p class="project-sum">' + fmt(p.summary) + "</p>" +
+        (p.role ? '<p class="project-role"><b>My role:</b> ' + esc(p.role) + (p.contribution ? " · " + esc(p.contribution) : "") + "</p>" : "") +
         (list(p.tags).length ? '<ul class="chips">' + chips(p.tags) + "</ul>" : "") + "</div>" +
         '<div class="project-foot" aria-hidden="true"><span>View details</span><span class="arrow">→</span></div></article>';
     }).join("");
@@ -312,14 +333,31 @@
       $("#pd-meta").innerHTML = '<span class="pid">P/' + num + "</span> · " + esc(p.kind);
       $("#pd-title").textContent = p.title || "";
       $("#pd-sum").innerHTML = fmt(p.summary);
-      $("#pd-points").innerHTML = list(p.details).map(function (d) { return "<li>" + fmt(d) + "</li>"; }).join("");
+      var roleLine = p.role ? '<p class="ppo-role"><b>My role:</b> ' + esc(p.role) + "." + (p.contribution ? " <b>My contribution:</b> " + esc(p.contribution) : "") + "</p>" : "";
+      var cols = [
+        ["Purpose", p.purpose, p.purposeLink, p.purposeLabel || "View brief"],
+        ["Process", p.process, p.processLink, p.processLabel || "View the work"],
+        ["Outcome", p.outcome, p.outcomeLink, p.outcomeLabel || "View result"]
+      ];
+      var hasPPO = cols.some(function (c) { return c[1]; });
+      $("#pd-ppo").innerHTML = hasPPO ? cols.map(function (c) {
+        var body = (c[0] === "Process" ? roleLine : "") + (c[1] ? "<p>" + fmt(c[1]) + "</p>" : "");
+        if (!body) return "";
+        return '<div class="ppo-col"><h4>' + c[0] + "</h4><div>" + body + "</div>" +
+          (c[2] ? '<a class="link-out" href="' + esc(c[2]) + '" target="_blank" rel="noopener">' + esc(c[3]) + ' <span aria-hidden="true">↗</span></a>' : "<span></span>") + "</div>";
+      }).join("") : "";
+      $("#pd-ppo").hidden = !hasPPO;
+      // older content.js format: plain bullet points
+      $("#pd-points").innerHTML = hasPPO ? "" : list(p.details).map(function (d) { return "<li>" + fmt(d) + "</li>"; }).join("");
       $("#pd-tags").innerHTML = chips(p.tags);
       var link = $("#pd-link");
       if (p.link) {
         link.href = p.link;
         link.innerHTML = esc(p.linkLabel || "Open project") + ' <span aria-hidden="true">↗</span>';
-        link.hidden = false; $("#pd-note").hidden = true;
-      } else { link.hidden = true; $("#pd-note").hidden = false; }
+        link.hidden = false;
+      } else { link.hidden = true; }
+      $("#pd-note").textContent = p.note || "";
+      $("#pd-note").hidden = !p.note;
       $("#pd-count").textContent = (cur + 1) + " / " + projects.length;
       var nav = projects.length > 1;
       $("#pd-prev").hidden = !nav; $("#pd-next").hidden = !nav; $("#pd-count").hidden = !nav;
@@ -352,6 +390,7 @@
     $$(".project-open").forEach(function (btn) {
       btn.addEventListener("click", function () { open(Number(btn.getAttribute("data-i")), btn); });
     });
+    openProject = open;
 
     /* spotlight + tilt (mouse only) */
     if (!finePointer || reduce) return;
@@ -371,13 +410,34 @@
     });
   });
 
-  /* ---------- skills ---------- */
+  /* ---------- skills & tools (kept separate) ---------- */
   safely("skills", function () {
-    var groups = list(S.skills);
-    if (!groups.length) { hideSection("skills"); return; }
-    $("#skill-list").innerHTML = groups.map(function (g) {
-      return '<div class="skill-group"><h3>' + esc(g.group) + '</h3><ul class="chips">' + chips(g.items) + "</ul></div>";
+    var skills = list(S.skills), tools = list(S.tools);
+    if (!skills.length && !tools.length) { hideSection("skills"); return; }
+    var projects = list(S.projects), jobs = list(S.experience);
+    function where(text) {
+      if (!text) return "";
+      var pi = -1;
+      projects.forEach(function (p, i) { if (p.title && p.title === text) pi = i; });
+      if (pi > -1) return 'Used in <a href="#projects" data-open-project="' + pi + '">' + esc(text) + "</a>";
+      var isJob = jobs.some(function (j) { return j.company === text; });
+      if (isJob) return 'Used at <a href="#experience">' + esc(text) + "</a>";
+      return "Shown in " + esc(text);
+    }
+    function levelClass(l) { l = String(l || "").toLowerCase(); return l.indexOf("advanced") > -1 ? "l-advanced" : l.indexOf("working") > -1 ? "l-working" : "l-found"; }
+    // older content.js format: skills as groups of names
+    if (skills.length && skills[0] && skills[0].items) {
+      skills = skills.reduce(function (all, g) { return all.concat(list(g.items).map(function (n) { return { name: n }; })); }, []);
+    }
+    $("#skill-list").innerHTML = skills.map(function (k) {
+      return '<li><span class="st-name">' + esc(k.name) + "</span>" + (k.level ? '<span class="st-level ' + levelClass(k.level) + '">' + esc(k.level) + "</span>" : "<span></span>") +
+        (k.shownIn ? '<span class="st-where">' + where(k.shownIn) + "</span>" : "") + "</li>";
     }).join("");
+    if (tools.length) {
+      $("#tool-list").innerHTML = tools.map(function (t) {
+        return '<li><span class="st-name">' + esc(t.name) + "</span><span></span>" + (t.shownIn ? '<span class="st-where">' + where(t.shownIn) + "</span>" : "") + "</li>";
+      }).join("");
+    } else { $("#tools-col").hidden = true; }
   });
 
   /* ---------- certifications ---------- */
@@ -388,7 +448,10 @@
       return '<article class="cert"><p class="cert-meta"><b>' + esc(c.issuer) + "</b><span>" + esc(c.date) + "</span></p>" +
         "<h3>" + esc(c.title) + "</h3>" +
         '<div><ul class="chips">' + chips(c.skills) + "</ul>" + (c.extra ? '<p class="cert-extra" style="margin-top:10px">' + esc(c.extra) + "</p>" : "") + "</div>" +
-        (c.file ? '<a class="link-out" href="' + esc(c.file) + '" target="_blank" rel="noopener">View certificate <span aria-hidden="true">↗</span></a>' : "") +
+        '<div class="cert-actions">' +
+          (c.file ? '<a class="link-out" href="' + esc(c.file) + '" target="_blank" rel="noopener">View certificate <span aria-hidden="true">↗</span></a>' : "") +
+          (c.verify ? '<a class="link-out" href="' + esc(c.verify) + '" target="_blank" rel="noopener">Verify on ' + esc(c.issuer || "issuer site") + ' <span aria-hidden="true">↗</span></a>' : "") +
+        "</div>" +
         "</article>";
     }).join("");
   });
@@ -722,6 +785,27 @@
     select(0);
   });
 
+  /* ---------- links from skills to projects, and the phone menu ---------- */
+  safely("menu", function () {
+    document.addEventListener("click", function (e) {
+      var a = e.target.closest ? e.target.closest("[data-open-project]") : null;
+      if (a && openProject) { e.preventDefault(); openProject(Number(a.getAttribute("data-open-project")), a); }
+    });
+    var btn = $("#menu-btn"), menu = $("#nav-links");
+    if (!btn || !menu) return;
+    function setOpen(on) {
+      menu.classList.toggle("open", on);
+      btn.setAttribute("aria-expanded", String(on));
+      btn.setAttribute("aria-label", on ? "Close menu" : "Open menu");
+    }
+    btn.addEventListener("click", function () { setOpen(!menu.classList.contains("open")); });
+    menu.addEventListener("click", function (e) { if (e.target.closest("a")) setOpen(false); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && menu.classList.contains("open")) { setOpen(false); btn.focus(); } });
+    document.addEventListener("click", function (e) {
+      if (menu.classList.contains("open") && !menu.contains(e.target) && !btn.contains(e.target)) setOpen(false);
+    });
+  });
+
   /* ---------- section numbers (01, 02 …) follow what is visible ---------- */
   safely("numbers", function () {
     var n = 0;
@@ -746,7 +830,7 @@
         setTimeout(function () { el.classList.remove("reveal", "in"); el.style.removeProperty("--delay"); }, 1100);
       });
     }, { rootMargin: "0px 0px -8% 0px" });
-    $$(".sec-head, .sec-sub, .about-text, .about-side .panel, .job, .project, .skill-group, .cert, .tabs, .game, .quote, .contact").forEach(function (el) {
+    $$(".sec-head, .sec-sub, .about-text, .about-side .panel, .job, .project, .st-col, .cert, .tabs, .game, .quote, .contact").forEach(function (el) {
       if (el.closest("[hidden]")) return;
       if (el.getBoundingClientRect().top < vh) return;
       var pos = el.parentElement ? Array.prototype.indexOf.call(el.parentElement.children, el) : 0;
@@ -759,7 +843,7 @@
   /* ---------- nav: border, scroll progress, active section ---------- */
   safely("nav", function () {
     var nav = $(".nav"), bar = $("#progress-bar");
-    var links = $$(".nav-links a");
+    var links = $$(".nav-links a").filter(function (a) { var h = a.getAttribute("href") || ""; return h.charAt(0) === "#" && h.length > 1; });
     var targets = links.map(function (a) { return document.querySelector(a.getAttribute("href")); });
     var ticking = false;
     function onScroll() {
