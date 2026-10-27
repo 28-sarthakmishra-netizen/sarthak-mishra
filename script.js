@@ -238,25 +238,122 @@
     }).join("");
   });
 
-  /* ---------- projects ---------- */
+  /* ---------- projects: cards with pictures, click to open ---------- */
+  function sparkSVG(points) {
+    return '<svg viewBox="0 0 100 30" preserveAspectRatio="none" aria-hidden="true"><polyline pathLength="1" points="' + points + '"/></svg>';
+  }
+  function visualHTML(p) {
+    var bar = function (title) { return '<div class="vw-bar"><i></i><i></i><i></i><span>' + esc(title) + "</span></div>"; };
+    if (p.visual === "agent") {
+      var heights = [70, 82, 64, 88, 38, 76];
+      return '<div class="vis vis-agent"><span class="vis-note">Illustration</span><div class="vw">' + bar(p.title) +
+        '<div class="vw-body va"><div class="va-chat">' +
+          '<p class="bub me">Why did sales slow down this quarter?</p>' +
+          '<p class="bub ai typing"><span></span><span></span><span></span></p>' +
+          '<div class="bub ai ans"><b>Diagnosis</b><span class="sk"></span><span class="sk"></span>' +
+            '<span class="va-tags"><em>Key issue found</em><em>Channels</em><em>Pricing</em></span></div>' +
+        '</div><div class="va-chart">' +
+          heights.map(function (h, i) { return '<span style="--h:' + h + "%;--i:" + i + '"' + (i === 4 ? ' class="flag"' : "") + "></span>"; }).join("") +
+        "</div></div></div></div>";
+    }
+    if (p.visual === "dashboard") {
+      return '<div class="vis vis-dash"><span class="vis-note">Illustration</span><div class="vw">' + bar(p.title) +
+        '<div class="vw-body vd"><div class="vd-kpis">' +
+          "<div><small>Revenue</small>" + sparkSVG("0,24 20,20 40,22 60,14 80,10 100,4") + "</div>" +
+          "<div><small>Margin</small>" + sparkSVG("0,12 20,16 40,10 60,18 80,14 100,12") + "</div>" +
+          "<div><small>ROE</small>" + sparkSVG("0,22 20,18 40,20 60,12 80,14 100,6") + "</div>" +
+        '</div><svg class="vd-line" viewBox="0 0 300 100" preserveAspectRatio="none" aria-hidden="true">' +
+          '<polygon points="0,100 0,82 40,74 80,78 120,60 160,64 200,44 240,40 300,18 300,100"/>' +
+          '<polyline pathLength="1" points="0,82 40,74 80,78 120,60 160,64 200,44 240,40 300,18"/>' +
+        "</svg></div></div></div>";
+    }
+    if (p.visual === "search") {
+      var tags = [["Vacant", ""], ["Ventilator", "warn"], ["Vacant", ""]];
+      return '<div class="vis vis-search"><span class="vis-note">Illustration</span><div class="vw">' + bar(p.title) +
+        '<div class="vw-body vs"><div class="vs-input"><svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="M20 20l-4-4"/></svg>' +
+          '<span class="vs-typed">ICU beds, South Delhi</span></div><ul class="vs-rows">' +
+          tags.map(function (t, i) { return '<li style="--i:' + i + '"><span class="sk"></span><em class="' + t[1] + '">' + t[0] + "</em></li>"; }).join("") +
+        "</ul></div></div></div>";
+    }
+    return "";
+  }
+  function mediaHTML(p, i, eager) {
+    if (p.image) return '<img src="' + esc(p.image) + '" alt="Screenshot of ' + esc(p.title) + '"' + (eager ? "" : ' loading="lazy"') + ">";
+    var vis = visualHTML(p);
+    if (vis) return vis;
+    return '<div class="cover cover-' + (i % 3) + '"><span class="cover-num">P/' + String(i + 1).padStart(2, "0") + '</span><span class="cover-title">' +
+      esc(p.title) + '</span><span class="cover-kind">' + esc(p.kind) + "</span></div>";
+  }
+
   safely("projects", function () {
     var projects = list(S.projects);
     if (!projects.length) { hideSection("projects"); return; }
     var holder = $("#project-list");
     holder.innerHTML = projects.map(function (p, i) {
       var num = String(i + 1).padStart(2, "0");
-      var more = '<ul class="points">' + list(p.details).map(function (d) { return "<li>" + fmt(d) + "</li>"; }).join("") + "</ul>" +
-        (p.link ? '<a class="link-out" href="' + esc(p.link) + '" target="_blank" rel="noopener">' + esc(p.linkLabel || "Open project") + ' <span aria-hidden="true">↗</span></a>' : "");
       return '<article class="project">' +
+        '<button type="button" class="project-open" data-i="' + i + '" aria-haspopup="dialog" aria-label="Open project: ' + esc(p.title) + '"></button>' +
+        '<div class="project-media">' + mediaHTML(p, i) + '<span class="media-cta" aria-hidden="true">View project</span></div>' +
         '<div class="project-top"><div class="project-meta"><span class="pid">P/' + num + "</span><span>" + esc(p.kind) + "</span></div>" +
         "<h3>" + esc(p.title) + '</h3><p class="project-sum">' + fmt(p.summary) + "</p>" +
         (list(p.tags).length ? '<ul class="chips">' + chips(p.tags) + "</ul>" : "") + "</div>" +
-        "<details><summary>Details <span class=\"plus\" aria-hidden=\"true\">+</span></summary>" +
-        '<div class="project-more">' + more + "</div></details></article>";
+        '<div class="project-foot" aria-hidden="true"><span>View details</span><span class="arrow">→</span></div></article>';
     }).join("");
     // 4 cards sit better as 2 × 2 than 3 + 1
     if (projects.length === 4 || projects.length === 1) holder.classList.add("two");
 
+    /* the pop-up */
+    var dlg = $("#project-dialog"), cur = 0, opener = null;
+    var root = document.documentElement;
+    function fill(i) {
+      cur = (i + projects.length) % projects.length;
+      var p = projects[cur], num = String(cur + 1).padStart(2, "0");
+      $("#pd-media").innerHTML = mediaHTML(p, cur, true);
+      $("#pd-meta").innerHTML = '<span class="pid">P/' + num + "</span> · " + esc(p.kind);
+      $("#pd-title").textContent = p.title || "";
+      $("#pd-sum").innerHTML = fmt(p.summary);
+      $("#pd-points").innerHTML = list(p.details).map(function (d) { return "<li>" + fmt(d) + "</li>"; }).join("");
+      $("#pd-tags").innerHTML = chips(p.tags);
+      var link = $("#pd-link");
+      if (p.link) {
+        link.href = p.link;
+        link.innerHTML = esc(p.linkLabel || "Open project") + ' <span aria-hidden="true">↗</span>';
+        link.hidden = false; $("#pd-note").hidden = true;
+      } else { link.hidden = true; $("#pd-note").hidden = false; }
+      $("#pd-count").textContent = (cur + 1) + " / " + projects.length;
+      var nav = projects.length > 1;
+      $("#pd-prev").hidden = !nav; $("#pd-next").hidden = !nav; $("#pd-count").hidden = !nav;
+      var inner = dlg.querySelector(".pd-inner"); if (inner) inner.scrollTop = 0;
+    }
+    function open(i, from) {
+      fill(i);
+      opener = from || null;
+      if (typeof dlg.showModal === "function") { if (!dlg.open) dlg.showModal(); }
+      else dlg.setAttribute("open", "");
+      root.classList.add("modal-open");
+    }
+    function close() {
+      if (typeof dlg.close === "function") dlg.close(); else { dlg.removeAttribute("open"); onClose(); }
+    }
+    function onClose() {
+      root.classList.remove("modal-open");
+      $("#pd-media").innerHTML = "";
+      if (opener) { try { opener.focus({ preventScroll: true }); } catch (e) { opener.focus(); } }
+    }
+    dlg.addEventListener("close", onClose);
+    dlg.addEventListener("click", function (e) { if (e.target === dlg) close(); });
+    $("#pd-close").addEventListener("click", close);
+    $("#pd-prev").addEventListener("click", function () { fill(cur - 1); });
+    $("#pd-next").addEventListener("click", function () { fill(cur + 1); });
+    dlg.addEventListener("keydown", function (e) {
+      if (e.key === "ArrowRight") { e.preventDefault(); fill(cur + 1); }
+      if (e.key === "ArrowLeft") { e.preventDefault(); fill(cur - 1); }
+    });
+    $$(".project-open").forEach(function (btn) {
+      btn.addEventListener("click", function () { open(Number(btn.getAttribute("data-i")), btn); });
+    });
+
+    /* spotlight + tilt (mouse only) */
     if (!finePointer || reduce) return;
     $$(".project").forEach(function (card) {
       card.addEventListener("pointermove", function (e) {

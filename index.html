@@ -17,7 +17,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@1&family=IBM+Plex+Mono:wght@400;500&display=swap">
-<link rel="stylesheet" href="styles.css?v=3">
+<link rel="stylesheet" href="styles.css?v=4">
 </head>
 <body>
 
@@ -112,10 +112,35 @@
   <section class="sec" id="projects" aria-labelledby="proj-h">
     <div class="wrap">
       <header class="sec-head"><span class="sec-num"></span><h2 id="proj-h">Projects</h2></header>
-      <p class="sec-sub">Open any card for the details.</p>
+      <p class="sec-sub">Click any card to open the project.</p>
       <div class="projects" id="project-list"></div>
     </div>
   </section>
+
+  <dialog class="pd" id="project-dialog" aria-labelledby="pd-title">
+    <div class="pd-inner">
+      <div class="pd-media" id="pd-media"></div>
+      <div class="pd-bar">
+        <button type="button" class="pd-btn" id="pd-prev" aria-label="Previous project">←</button>
+        <span class="pd-count" id="pd-count"></span>
+        <button type="button" class="pd-btn" id="pd-next" aria-label="Next project">→</button>
+        <button type="button" class="pd-btn pd-close" id="pd-close" aria-label="Close">✕</button>
+      </div>
+      <div class="pd-body">
+        <div class="pd-main">
+          <p class="pd-meta" id="pd-meta"></p>
+          <h3 id="pd-title"></h3>
+          <p class="pd-sum" id="pd-sum"></p>
+          <ul class="points" id="pd-points"></ul>
+        </div>
+        <div class="pd-side">
+          <ul class="chips" id="pd-tags"></ul>
+          <a class="link-out" id="pd-link" href="#" target="_blank" rel="noopener"></a>
+          <p class="pd-note" id="pd-note" hidden>Link coming soon.</p>
+        </div>
+      </div>
+    </div>
+  </dialog>
 
   <section class="sec" id="skills" aria-labelledby="skills-h">
     <div class="wrap">
@@ -273,7 +298,7 @@
     }
   }, true);
 </script>
-<script src="content.js?v=3"></script>
-<script src="script.js?v=3"></script>
+<script src="content.js?v=4"></script>
+<script src="script.js?v=4"></script>
 </body>
 </html>

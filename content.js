@@ -135,7 +135,12 @@ window.SITE = {
 
   /* ---------- 6. PROJECTS ----------
      Naya project add karna ho: neeche ek { ... }, block copy karo,
-     aakhri project ke baad paste karo, aur text badal do.          */
+     aakhri project ke baad paste karo, aur text badal do.
+     Picture: screenshot ko assets/projects folder mein daalo aur
+     image: "assets/projects/file-ka-naam.jpg" likho.
+     image khali ho toh "visual" wala animated chitra dikhta hai:
+     "agent" (chat + chart), "dashboard" (KPI + graph), "search" (search + list).
+     Dono khali ho toh ek simple design kiya hua cover ban jayega.     */
   projects: [
     {
       title: "Titan Company Dashboard",
@@ -148,6 +153,8 @@ window.SITE = {
       tags: ["Python", "Financial analysis", "Dashboard"],
       link: "",            // dashboard ka link yahan daalo, button apne aap aa jayega
       linkLabel: "Open the dashboard",
+      image: "",           // screenshot ka naam, jaise "assets/projects/titan-dashboard.jpg"
+      visual: "dashboard",
     },
     {
       title: "Build Your Acre",
@@ -162,6 +169,7 @@ window.SITE = {
       tags: ["Budgeting", "Real estate", "AI advisor", "Game design"],
       link: "https://claude.ai/code/artifact/340599b4-b82a-4960-8273-64e4d6e47a78",
       linkLabel: "Play the game",
+      image: "assets/projects/build-your-acre.jpg",
     },
     {
       title: "Delhi ICU Finder",
@@ -177,6 +185,8 @@ window.SITE = {
       tags: ["Public data", "Healthcare", "Search", "AI assistant"],
       link: "https://delhi-icu-finder-adii.souravyadav122002.chatgpt.site/",
       linkLabel: "Open the tool",
+      image: "",
+      visual: "search",
     },
     {
       title: "Mamaearth Sales Diagnosis Agent",
@@ -191,6 +201,8 @@ window.SITE = {
       tags: ["Sales analysis", "Decision support", "D2C", "Gemini"],
       link: "https://gemini.google.com/gem/1pG4nlpvY3pNYB_mooCKdqYOuUNr4ydPK?usp=sharing",
       linkLabel: "Open the agent",
+      image: "",
+      visual: "agent",
     },
   ],
 

@@ -124,6 +124,14 @@ Abhi khali hai, isliye site pe ye section dikhta hi nahi. Kisi teacher ya manage
 ```
 Link daalte hi card pe "Open the dashboard" button aa jayega.
 
+### Project ki picture lagana
+1. Screenshot ko GitHub Desktop wale folder mein `assets/projects` ke andar daalo (naam mein space nahi, jaise `titan-dashboard.jpg`).
+2. `content.js` mein us project ke andar likho:
+```js
+      image: "assets/projects/titan-dashboard.jpg",
+```
+`image` khali ho toh `visual` wala animated chitra dikhta hai (`"agent"`, `"dashboard"` ya `"search"`).
+
 ### Ghoomti heading ke shabd
 ```js
   headlineWords: ["decisions", "strategy", "growth", "insight"],
