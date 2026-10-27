@@ -50,6 +50,7 @@ Bas. Ab jab bhi GitHub pe koi file badlega, GitHub khud website update kar dega.
 3. Jo text badalna hai, badlo.
 4. Upar right **Commit changes…** → phir se **Commit changes**.
 5. 1-2 minute ruko, phir apni site kholke refresh karo (laptop pe `Ctrl + Shift + R`). Kabhi 5 minute bhi lag sakte hain.
+   Browser purani files 10 minute tak yaad rakh sakta hai, isliye site aadhi purani aadhi nayi dikhe toh `Ctrl + Shift + R` ya Incognito window use karo.
 
 ### 3 rules (inhe follow karoge toh kuch nahi tootega)
 1. Har text `"double quotes"` ke andar hota hai.
