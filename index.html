@@ -1,0 +1,215 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Sarthak Mishra | PGDM Financial Management, FIIB</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<meta name="description" content="Sarthak Mishra is a PGDM Financial Management student at FIIB, New Delhi, looking for roles in Corporate Finance, FP&A and Financial Analysis.">
+<meta name="author" content="Sarthak Mishra">
+<meta name="theme-color" content="#27382B">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Sarthak Mishra | PGDM Financial Management, FIIB">
+<meta property="og:description" content="Turning numbers into decisions. Looking for roles in Corporate Finance, FP&A and Financial Analysis.">
+<meta property="og:image" content="assets/og-image.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Instrument+Sans:wght@400;500;600&family=Instrument+Serif:ital@1&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="nav" id="top">
+  <div class="nav-in">
+    <a class="mono-mark" href="#top" aria-label="Back to top" data-fill="initials">SM</a>
+    <nav aria-label="Sections">
+      <ul class="nav-links">
+        <li><a href="#about">About</a></li>
+        <li><a href="#experience">Experience</a></li>
+        <li><a href="#projects">Projects</a></li>
+        <li><a href="#certifications">Certifications</a></li>
+      </ul>
+    </nav>
+    <a class="btn btn-dark btn-sm" href="#contact">Hire me <span aria-hidden="true">→</span></a>
+  </div>
+</header>
+
+<main id="main">
+
+  <!-- Content error message (only shows if content.js has a mistake) -->
+  <div class="load-error" id="load-error" hidden></div>
+
+  <section class="hero" aria-labelledby="hero-name">
+    <div class="wrap hero-in">
+      <div class="hero-copy">
+        <p class="eyebrow"><span class="dash" aria-hidden="true"></span><span data-fill="label"></span></p>
+        <h1 id="hero-name" data-fill="name"></h1>
+        <p class="headline" data-fill="headline"></p>
+        <p class="intro" data-fill="intro"></p>
+        <div class="hero-actions">
+          <a class="btn btn-dark" id="resume-btn" href="#" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 4v11m0 0l-4.5-4.5M12 15l4.5-4.5M5 19h14"/></svg>
+            Download resume
+          </a>
+          <a class="btn btn-line" href="#contact">Get in touch</a>
+        </div>
+      </div>
+
+      <figure class="portrait">
+        <div class="portrait-arch">
+          <img id="portrait-img" src="" alt="" width="722" height="1112" fetchpriority="high">
+        </div>
+        <figcaption class="quote-card" aria-hidden="true">
+          <span class="qc-sym" data-fill="initials">SM</span>
+          <span class="qc-name">PGDM · FM</span>
+          <span class="qc-up" id="qc-up"></span>
+        </figcaption>
+      </figure>
+
+      <ul class="stats" id="stats" aria-label="Highlights"></ul>
+    </div>
+
+    <div class="ticker" aria-hidden="true">
+      <div class="ticker-track" id="ticker"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="about" aria-labelledby="about-h">
+    <div class="wrap">
+      <header class="sec-head"><span class="sec-num"></span><h2 id="about-h">About me</h2></header>
+      <div class="about-grid">
+        <div class="about-text" id="about-text"></div>
+        <aside class="about-side">
+          <div class="panel">
+            <h3 class="panel-label">Education</h3>
+            <ol class="edu" id="edu"></ol>
+          </div>
+          <div class="panel panel-dark">
+            <h3 class="panel-label">Looking for</h3>
+            <ul class="chips chips-light" id="looking-for"></ul>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="experience" aria-labelledby="exp-h">
+    <div class="wrap">
+      <header class="sec-head"><span class="sec-num"></span><h2 id="exp-h">Experience</h2></header>
+      <ol class="timeline" id="timeline"></ol>
+    </div>
+  </section>
+
+  <section class="sec" id="projects" aria-labelledby="proj-h">
+    <div class="wrap">
+      <header class="sec-head"><span class="sec-num"></span><h2 id="proj-h">Projects</h2></header>
+      <p class="sec-sub">Open any card for the details.</p>
+      <div class="projects" id="project-list"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="skills" aria-labelledby="skills-h">
+    <div class="wrap">
+      <header class="sec-head"><span class="sec-num"></span><h2 id="skills-h">Skills</h2></header>
+      <div class="skills" id="skill-list"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="certifications" aria-labelledby="cert-h">
+    <div class="wrap">
+      <header class="sec-head"><span class="sec-num"></span><h2 id="cert-h">Certifications</h2></header>
+      <div class="certs" id="cert-list"></div>
+    </div>
+  </section>
+
+  <section class="sec" id="playground" aria-labelledby="play-h">
+    <div class="wrap">
+      <header class="sec-head"><span class="sec-num"></span><h2 id="play-h">Playground</h2></header>
+      <div class="tvm">
+        <div class="tvm-controls">
+          <h3 class="tvm-title" id="tvm-title"></h3>
+          <p class="tvm-text" id="tvm-text"></p>
+          <div class="seg" role="group" aria-label="Calculation">
+            <button type="button" id="mode-fv" aria-pressed="true">Future value</button>
+            <button type="button" id="mode-pv" aria-pressed="false">Present value</button>
+          </div>
+          <div class="field">
+            <label for="tvm-amount"><span id="amount-label">Amount today</span><output id="amount-out"></output></label>
+            <input type="range" id="tvm-amount" min="10000" max="5000000" step="10000" value="100000">
+          </div>
+          <div class="field">
+            <label for="tvm-rate"><span>Annual return</span><output id="rate-out"></output></label>
+            <input type="range" id="tvm-rate" min="1" max="20" step="0.5" value="12">
+          </div>
+          <div class="field">
+            <label for="tvm-years"><span>Years</span><output id="years-out"></output></label>
+            <input type="range" id="tvm-years" min="1" max="30" step="1" value="10">
+          </div>
+        </div>
+        <div class="tvm-result">
+          <p class="tvm-kicker" id="result-kicker">Grows to</p>
+          <p class="tvm-big" id="result-big"></p>
+          <p class="tvm-note" id="result-note"></p>
+          <div class="chart-box">
+            <svg id="tvm-chart" viewBox="0 0 560 220" role="img" aria-label="Value of the amount, year by year"></svg>
+          </div>
+          <p class="tvm-legend">
+            <span class="lg"><span class="key key-p"></span><span id="legend-p">Amount invested</span></span>
+            <span class="lg"><span class="key key-g"></span><span id="legend-g">Growth</span></span>
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="sec" id="testimonials" aria-labelledby="test-h" hidden>
+    <div class="wrap">
+      <header class="sec-head"><span class="sec-num"></span><h2 id="test-h">What people say</h2></header>
+      <div class="quotes" id="quote-list"></div>
+    </div>
+  </section>
+
+  <section class="sec sec-contact" id="contact" aria-labelledby="contact-h">
+    <div class="wrap">
+      <div class="contact">
+        <div class="contact-copy">
+          <header class="sec-head sec-head-light"><span class="sec-num"></span><h2 id="contact-h" data-fill="contact.heading">Let's talk</h2></header>
+          <p class="contact-text" data-fill="contact.text"></p>
+          <div class="email-row">
+            <span class="email-text" id="email-text"></span>
+            <button type="button" class="copy-btn" id="copy-email">Copy email</button>
+          </div>
+          <div class="contact-actions" id="contact-actions"></div>
+          <p class="contact-meta" id="contact-meta"></p>
+        </div>
+        <img class="contact-photo" id="contact-photo" src="" alt="" width="555" height="1150">
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap foot-in">
+    <span id="foot-copy"></span>
+    <a href="#top">Back to top ↑</a>
+  </div>
+</footer>
+
+<script>
+  // Catches mistakes in content.js so the page can say which line broke.
+  window.__contentError = null;
+  window.addEventListener("error", function (e) {
+    if (e && e.filename && e.filename.indexOf("content.js") !== -1) {
+      window.__contentError = { line: e.lineno, message: e.message };
+    }
+  }, true);
+</script>
+<script src="content.js"></script>
+<script src="script.js"></script>
+</body>
+</html>
