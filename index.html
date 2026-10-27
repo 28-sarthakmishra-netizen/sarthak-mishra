@@ -36,6 +36,7 @@
     </nav>
     <a class="btn btn-dark btn-sm" href="#contact">Hire me <span aria-hidden="true">→</span></a>
   </div>
+  <div class="progress" aria-hidden="true"><span id="progress-bar"></span></div>
 </header>
 
 <main id="main">
@@ -59,8 +60,12 @@
         </div>
       </div>
 
-      <figure class="portrait">
-        <div class="portrait-arch">
+      <figure class="portrait" id="portrait">
+        <div class="glyphs" id="glyphs" aria-hidden="true"></div>
+        <div class="portrait-arch" id="portrait-arch">
+          <svg class="arch-line" viewBox="0 0 400 500" preserveAspectRatio="none" aria-hidden="true">
+            <polyline pathLength="1" points="0,430 60,400 110,412 170,350 220,366 280,290 330,300 400,210"/>
+          </svg>
           <img id="portrait-img" src="" alt="" width="722" height="1112" fetchpriority="high">
         </div>
         <figcaption class="quote-card" aria-hidden="true">
@@ -129,7 +134,66 @@
   <section class="sec" id="playground" aria-labelledby="play-h">
     <div class="wrap">
       <header class="sec-head"><span class="sec-num"></span><h2 id="play-h">Playground</h2></header>
-      <div class="tvm">
+
+      <div class="tabs" role="tablist" aria-label="Playground">
+        <button type="button" role="tab" id="tab-game" aria-selected="true" aria-controls="panel-game">Balance sheet game</button>
+        <button type="button" role="tab" id="tab-tvm" aria-selected="false" aria-controls="panel-tvm" tabindex="-1">Money calculator</button>
+      </div>
+
+      <div class="game" id="panel-game" role="tabpanel" aria-labelledby="tab-game">
+        <div class="game-head">
+          <div class="game-intro">
+            <h3 class="game-title" id="game-title"></h3>
+            <p class="game-text" id="game-text"></p>
+          </div>
+          <dl class="game-stats">
+            <div><dt>Item</dt><dd id="g-progress">1/10</dd></div>
+            <div><dt>Score</dt><dd id="g-score">0</dd></div>
+            <div><dt>Time</dt><dd id="g-time">0.0s</dd></div>
+          </dl>
+        </div>
+
+        <div class="game-stage">
+          <div class="deck">
+            <div class="deck-card" id="g-card">
+              <span class="dc-label">Where does this go?</span>
+              <span class="dc-name" id="g-name"></span>
+              <span class="dc-amt" id="g-amt"></span>
+              <span class="dc-hint" aria-hidden="true">Drag me, or tap a side →</span>
+            </div>
+            <p class="g-feedback" id="g-feedback" role="status" aria-live="polite"></p>
+          </div>
+
+          <div class="sheet" aria-label="Balance sheet">
+            <div class="sheet-col">
+              <button type="button" class="bucket" data-side="Asset" aria-keyshortcuts="A">
+                <span class="b-key" aria-hidden="true">A</span><span class="b-name">Assets</span><span class="b-total" data-total="Asset">₹0</span>
+              </button>
+              <ul class="b-list" data-list="Asset"></ul>
+            </div>
+            <div class="sheet-col">
+              <button type="button" class="bucket" data-side="Liability" aria-keyshortcuts="L">
+                <span class="b-key" aria-hidden="true">L</span><span class="b-name">Liabilities</span><span class="b-total" data-total="Liability">₹0</span>
+              </button>
+              <ul class="b-list" data-list="Liability"></ul>
+              <button type="button" class="bucket" data-side="Equity" aria-keyshortcuts="E">
+                <span class="b-key" aria-hidden="true">E</span><span class="b-name">Equity</span><span class="b-total" data-total="Equity">₹0</span>
+              </button>
+              <ul class="b-list" data-list="Equity"></ul>
+            </div>
+          </div>
+        </div>
+
+        <div class="game-end" id="g-end" hidden>
+          <p class="ge-kicker">Final score</p>
+          <p class="ge-score" id="ge-score"></p>
+          <p class="ge-rating" id="ge-rating"></p>
+          <p class="ge-balance" id="ge-balance"></p>
+          <button type="button" class="btn btn-dark" id="g-again">Play again</button>
+        </div>
+      </div>
+
+      <div class="tvm" id="panel-tvm" role="tabpanel" aria-labelledby="tab-tvm" hidden>
         <div class="tvm-controls">
           <h3 class="tvm-title" id="tvm-title"></h3>
           <p class="tvm-text" id="tvm-text"></p>

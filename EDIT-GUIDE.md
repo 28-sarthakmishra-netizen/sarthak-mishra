@@ -116,9 +116,33 @@ Abhi khali hai, isliye site pe ye section dikhta hi nahi. Kisi teacher ya manage
   ],
 ```
 
+### Titan dashboard ka link daalna
+`content.js` mein Titan wale project mein:
+```js
+      link: "https://tera-dashboard-ka-link",
+```
+Link daalte hi card pe "Open the dashboard" button aa jayega.
+
+### Ghoomti heading ke shabd
+```js
+  headlineWords: ["decisions", "strategy", "growth", "insight"],
+```
+Ek hi shabd rakhoge toh heading ghoomegi nahi.
+
+### Photo ke aas-paas tairte terms
+```js
+  floatingTerms: ["NPV", "IRR", "ROE", "P/E", "EBITDA", "WACC", "₹", "%", "FCF", "Σ"],
+```
+Zyada se zyada 10 dikhte hain.
+
+### Balance sheet game
+`game:` ke andar `items` hain. Har item mein `side` sirf `"Asset"`, `"Liability"` ya `"Equity"` hona chahiye.
+Amount aise rakhna ki Assets ka total = Liabilities + Equity ka total, warna end mein "Balanced ✓" nahi aayega.
+Game band karna ho toh `show: false,`.
+
 ### Kuch hatana / chhupana
 - Phone number hatana: `phone: "",`
-- Playground (calculator) chhupana: `show: false,`
+- Playground ka calculator chhupana: `playground:` ke andar `show: false,` (game aur calculator dono band karoge toh poora Playground section chhup jayega)
 - Koi skill, project ya bullet hatana: uski poori line (ya poora `{ ... },` block) delete kar do.
 
 ---

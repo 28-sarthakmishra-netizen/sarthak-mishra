@@ -22,6 +22,10 @@ window.SITE = {
   label: "PGDM Financial Management · FIIB, New Delhi",
   // *star ke beech wala shabd* italic aur rangeen dikhega
   headline: "Turning numbers into *decisions*.",
+  // upar wala *shabd* in shabdon ke beech ghoomta rahega (ek hi rakhoge toh nahi ghoomega)
+  headlineWords: ["decisions", "strategy", "growth", "insight"],
+  // photo ke aas-paas tairte hue finance terms
+  floatingTerms: ["NPV", "IRR", "ROE", "P/E", "EBITDA", "WACC", "₹", "%", "FCF", "Σ"],
   intro: "PGDM (Financial Management) student at FIIB with hands-on experience in business operations and revenue growth. I'm looking for opportunities in Corporate Finance, FP&A and Financial Analysis.",
 
   photo: "assets/sarthak-portrait.webp",
@@ -134,6 +138,18 @@ window.SITE = {
      aakhri project ke baad paste karo, aur text badal do.          */
   projects: [
     {
+      title: "Titan Company Dashboard",
+      kind: "Python dashboard · Financial Insights",
+      summary: "An interactive financial dashboard on Titan Company, built in Python.",
+      details: [
+        "Course project for Financial Insights at FIIB.",
+        "Built in Python as an interactive company dashboard.",
+      ],
+      tags: ["Python", "Financial analysis", "Dashboard"],
+      link: "",            // dashboard ka link yahan daalo, button apne aap aa jayega
+      linkLabel: "Open the dashboard",
+    },
+    {
       title: "Build Your Acre",
       kind: "AI business game · Team project",
       summary: "A game where you build a home in Delhi NCR on a budget, then try to beat an AI property advisor.",
@@ -216,15 +232,38 @@ window.SITE = {
   ],
 
 
-  /* ---------- 10. PLAYGROUND (paise ka calculator) ---------- */
+  /* ---------- 10. PLAYGROUND: BALANCE SHEET GAME ----------
+     side: "Asset", "Liability" ya "Equity" hi likhna.
+     Amount aise rakho ki Assets ka total = Liabilities + Equity ka total,
+     tabhi game ke end mein balance sheet "Balanced ✓" dikhayegi.        */
+  game: {
+    show: true,      // false likhoge toh game chhup jayega
+    title: "Make the balance sheet balance",
+    text: "A small chai brand's books are in a mess. Put each item on the right side of the balance sheet: tap a side, drag the card, or press A, L or E.",
+    items: [
+      { name: "Cash in bank",         side: "Asset",     amount: 200000, why: "money the business owns" },
+      { name: "Inventory",            side: "Asset",     amount: 150000, why: "goods held for sale" },
+      { name: "Trade receivables",    side: "Asset",     amount: 100000, why: "customers owe this to the business" },
+      { name: "Machinery",            side: "Asset",     amount: 400000, why: "a long-term resource the business uses" },
+      { name: "Prepaid rent",         side: "Asset",     amount: 50000,  why: "rent paid in advance, so the benefit is still to come" },
+      { name: "Bank loan",            side: "Liability", amount: 300000, why: "borrowed money that must be repaid" },
+      { name: "Trade payables",       side: "Liability", amount: 120000, why: "the business owes its suppliers" },
+      { name: "Outstanding salaries", side: "Liability", amount: 30000,  why: "salary earned by staff but not yet paid" },
+      { name: "Share capital",        side: "Equity",    amount: 300000, why: "money put in by the owners" },
+      { name: "Retained earnings",    side: "Equity",    amount: 150000, why: "past profits kept in the business" },
+    ],
+  },
+
+
+  /* ---------- 11. PLAYGROUND: PAISE KA CALCULATOR ---------- */
   playground: {
-    show: true,      // false likhoge toh ye section chhup jayega
+    show: true,      // false likhoge toh calculator chhup jayega
     title: "Money has a time value",
     text: "₹1 today is worth more than ₹1 tomorrow. Move the sliders to see how an amount grows, or what a future amount is worth today.",
   },
 
 
-  /* ---------- 11. CONTACT ---------- */
+  /* ---------- 12. CONTACT ---------- */
   contact: {
     heading: "Let's talk",
     text: "Hiring for Corporate Finance, FP&A or Financial Analysis, or working on something I could help with? I'd like to hear about it.",
